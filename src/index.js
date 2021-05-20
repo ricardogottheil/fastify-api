@@ -1,13 +1,14 @@
-//import fastify & mongoose
 const fastify = require('fastify');
 const mongoose = require('mongoose');
+const noteRoutes = require('./routes/noteRoutes');
 
-//initialized Fastify App
 const app = fastify();
+const port = process.env.PORT || 5000;
 
-//connected fastify to mongoose
+const mongoUri = '';
+
 mongoose.connect(
-  'mongodb+srv://fastifyuser:fastifyuser@learningfastify.d9yvv.mongodb.net/fastifyDatabase?retryWrites=true&w=majority',
+  mongoUri,
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -20,17 +21,10 @@ mongoose.connect(
   }
 );
 
-//handle root route
-app.get('/', async (request, reply) => {
-  try {
-    reply.send('Hello world!');
-  } catch (e) {
-    console.error(e);
-  }
-});
+noteRoutes(app);
 
 //set application listening on port 5000 of localhost
-app.listen(5000, async (err, address) => {
+app.listen(port, async (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);
